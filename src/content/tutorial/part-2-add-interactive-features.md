@@ -12,7 +12,7 @@ Your static prototype is working — now let's make it interactive. Instead of m
 
 After this prompt, your PRD will have new requirements for filters, detail views, and editing capabilities.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 5
@@ -38,7 +38,7 @@ Now that your requirements have grown, your task list needs to grow too. AI will
 
 After this prompt, your task list will have new items for each interactive feature.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 6
@@ -68,7 +68,7 @@ Here's the key pattern for reliable AI development: **one task at a time**. Inst
 
 Use this prompt repeatedly — once for each task in your list. After each run, your prototype gains one new feature.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 7
@@ -115,7 +115,7 @@ You've built many features — but do they all actually work? Instead of manuall
 
 After this prompt, you'll have a verification table showing which requirements pass or fail, with evidence.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 8

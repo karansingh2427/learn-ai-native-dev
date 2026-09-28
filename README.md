@@ -27,7 +27,13 @@
 
 > **Build _with_ AI, not just _using_ it.**
 >
-> A living, community-shaped curriculum for the practice of agentic coding.
+> A living curriculum for the practice of agentic coding — taught in **Cursor**, with **Claude Code** equivalents wherever the file or command differs.
+
+<br/>
+
+This repository is a fork of [microsoft/learn-ai-native-dev](https://github.com/microsoft/learn-ai-native-dev), adapted for Cursor and Claude Code. The original course teaches the same ideas with VS Code and GitHub Copilot. Code is [MIT](LICENSE). Lesson content is [CC BY 4.0](LICENSE-DOCS). © Microsoft Corporation, with changes in this fork.
+
+The **Foundation** path (Parts 0–8) is retargeted. The Agentic and Terminal paths still follow the original Copilot labs and are next.
 
 <br/>
 
@@ -76,7 +82,7 @@ _For contributors running the site locally. Just learning? Open the
 tutorial above — nothing to install._
 
 ```bash
-git clone https://github.com/microsoft/learn-ai-native-dev.git
+git clone https://github.com/karansingh2427/learn-ai-native-dev.git
 cd learn-ai-native-dev && npm install && npm run dev
 ```
 

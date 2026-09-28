@@ -71,7 +71,7 @@ export const officialPaths: LearningPath[] = [
   {
     id: 'terminal',
     title: 'Terminal & CLI',
-    tagline: 'Drive AI from the terminal — Copilot CLI, Claude Code, build pipelines.',
+    tagline: 'Drive AI from the terminal with Claude Code, and the same loops in Cursor.',
     level: 'advanced',
     status: 'official',
     supportsExamples: false,

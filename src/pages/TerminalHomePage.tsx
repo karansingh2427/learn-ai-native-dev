@@ -46,7 +46,7 @@ export function TerminalHomePage() {
             <span className="text-[#39e875]"> Development</span>
           </h1>
           <p className="mx-auto max-w-xl text-[#9aada2] font-mono text-sm">
-            Build AI coding agents from scratch. Master Claude Code & GitHub Copilot CLI. Deploy autonomous pipelines.
+            Build AI coding agents from scratch. Claude Code is the terminal path. The same loops are what Cursor runs in the editor.
           </p>
           {/* Blinking cursor */}
           <div className="mt-6 flex justify-center">
@@ -72,7 +72,7 @@ export function TerminalHomePage() {
             <div>
               <p className="font-semibold text-[#e8f0eb] font-mono">Prerequisites</p>
               <p className="text-sm text-[#9aada2]">
-                Complete Foundation Track (Parts 0-8). Module A (MCP Servers) recommended for Module G.
+                Complete Foundation Track (Parts 0-8). Module A (MCP Servers) recommended for Module G. These labs still name GitHub Copilot CLI in places. Use Claude Code for the terminal steps, and Cursor when the same step happens in the editor.
               </p>
             </div>
           </div>
@@ -198,7 +198,7 @@ export function TerminalHomePage() {
                 <div>
                   <h3 className="font-mono text-sm font-bold text-[#e8f0eb]">USE</h3>
                   <p className="text-xs text-[#7d9185] font-mono">
-                    Master Claude Code & gh copilot as power-user tools
+                    Use Claude Code as the terminal agent, with Cursor alongside it
                   </p>
                 </div>
               </div>

@@ -256,8 +256,8 @@ export const summaryContent = {
       },
       {
         problem: "AI isn't following rules",
-        prevention: 'Create .github/copilot-instructions.md',
-        solution: 'Say: "First, read .github/copilot-instructions.md"'
+        prevention: 'Create .cursor/rules/project.mdc and CLAUDE.md',
+        solution: 'Start a new chat so the rules load'
       },
       {
         problem: 'Want to start over',
@@ -271,8 +271,8 @@ export const summaryContent = {
       },
       {
         problem: 'Custom agent not working',
-        prevention: 'Check file is in .github/agents/',
-        solution: 'Make sure @agent-name matches the name: field exactly'
+        prevention: 'Check the file is in .cursor/agents/ and .claude/agents/',
+        solution: 'Say "Use the test-agent subagent" and match the name: field'
       },
       {
         problem: 'Skill not loading',
@@ -281,8 +281,8 @@ export const summaryContent = {
       },
       {
         problem: 'Path instructions ignored',
-        prevention: 'Check applyTo: matches folder path',
-        solution: 'Restart Copilot chat to reload instructions'
+        prevention: 'Cursor: globs on the .mdc file. Claude Code: paths on the rule',
+        solution: 'Start a new chat so folder rules reload'
       }
     ]
   },
@@ -294,7 +294,7 @@ export const summaryContent = {
       'One task at a time keeps things simple and working',
       'Rules in special files make AI follow your guidelines automatically',
       'Path-specific instructions give different rules to different folders',
-      'Custom agents are specialized AI personas you invoke with @name',
+      'Subagents are specialists the main agent delegates to',
       'Agent skills are reusable workflows AI loads automatically when relevant',
       'You can combine all these tools to build complete features professionally'
     ],

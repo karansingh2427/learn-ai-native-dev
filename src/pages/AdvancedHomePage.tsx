@@ -55,7 +55,7 @@ export function AdvancedHomePage() {
             <div>
               <p className="font-semibold text-foreground">Prerequisites</p>
               <p className="text-sm text-muted-foreground">
-                Complete Parts 0-8 of the Foundation Track first. This track builds on custom agents, skills, and the spec-driven workflow.
+                Complete Parts 0-8 of the Foundation Track first. This track builds on custom agents, skills, and the spec-driven workflow. The labs below still use the original GitHub Copilot examples. The ideas transfer; the Cursor and Claude Code file paths are the ones you learned in Foundation.
               </p>
             </div>
           </div>
@@ -187,7 +187,7 @@ export function AdvancedHomePage() {
                 <span className="text-2xl">☁️</span>
                 <div>
                   <h3 className="font-heading text-base font-bold text-foreground">
-                    Copilot Coding Agent
+                    Background agents
                   </h3>
                   <p className="text-sm text-muted-foreground">
                     Delegate tasks via issues while you focus on other work

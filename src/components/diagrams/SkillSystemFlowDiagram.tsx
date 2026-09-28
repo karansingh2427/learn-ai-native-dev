@@ -212,8 +212,8 @@ export function SkillSystemFlowDiagram() {
       <div className="flex items-center gap-3 p-4 rounded-lg bg-primary/5 border border-primary/20">
         <Info size={20} className="text-primary shrink-0" />
         <p className="text-sm text-foreground">
-          <strong>This is how GitHub Copilot skills work.</strong> In Part 6, you created{' '}
-          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs border border-border">.github/skills/*/SKILL.md</code>{' '}
+          <strong>This is how Cursor and Claude Code skills work.</strong> In Part 6, you created{' '}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs border border-border">SKILL.md</code>{' '}
           files and they "just activated." Step G8 builds the code that makes that happen — index, match, load, inject.
         </p>
       </div>

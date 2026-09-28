@@ -227,7 +227,7 @@ export function FoundationHomePage() {
                   Terminal & CLI →
                 </h3>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Drive AI from the terminal — Copilot CLI, Claude Code.
+                  Drive AI from the terminal with Claude Code, and with Cursor's agent in the editor.
                 </p>
               </Card>
             </Link>

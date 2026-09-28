@@ -285,11 +285,11 @@ export function ContributeShapePage() {
         <section className="mb-8 rounded-lg border border-border bg-card p-6">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="font-heading text-base font-semibold">The agent chain</h2>
-            <Badge variant="outline" className="font-mono text-[10px]">copilot-sdk</Badge>
+            <Badge variant="outline" className="font-mono text-[10px]">cursor-agent</Badge>
           </div>
           <p className="mb-4 text-sm text-muted-foreground">
-            Each step below runs in <strong>VS Code</strong> via the slash-prompt below —
-            powered by your local GitHub Copilot subscription.
+            Each step below runs in <strong>Cursor</strong> when you paste the prompt into Agent.
+            Claude Code can run the same prompt in a <code>claude</code> session.
           </p>
           <AgentChainStepper chain={def.chain} />
         </section>
@@ -337,7 +337,7 @@ export function ContributeShapePage() {
             <code>{def.prompt}</code>
           </pre>
           <p className="mt-2 text-xs text-muted-foreground">
-            Paste this into Copilot Chat in your editor. Powered by{' '}
+            Paste this into Cursor Agent. The same text works in Claude Code. It calls{' '}
             {def.agents.map((a) => (
               <span key={a} className="font-mono">{a}</span>
             ))}.
@@ -348,10 +348,10 @@ export function ContributeShapePage() {
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button asChild className="gap-2">
             <a
-              href={`vscode://vscode.git/clone?url=${encodeURIComponent('https://github.com/microsoft/learn-ai-native-dev.git')}`}
+              href="https://github.com/karansingh2427/learn-ai-native-dev"
             >
               <Code size={16} weight="bold" />
-              Open in VS Code
+              Open the repo
             </a>
           </Button>
           <Button variant="outline" asChild className="gap-2">

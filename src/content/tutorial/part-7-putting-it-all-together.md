@@ -20,7 +20,7 @@ By the end, you'll have practiced the full AI-native development cycle — the s
 ## step: choose-model
 ### title: Quick Tip: Choosing the Right AI Model
 
-Before we start, notice the **model picker** and **agent picker** in the chat input area at the bottom of Chat view.
+Before we start, notice the **model picker** in the Agent panel.
 
 **Different models excel at different tasks:**
 
@@ -40,7 +40,7 @@ Following the spec-driven workflow, you start with requirements. Add the new sum
 
 After this prompt, your PRD will have R13-R14 for the summary feature, and Tasks.md will have corresponding tasks.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 30
@@ -69,7 +69,7 @@ Now implement using the add-feature skill workflow. The skill will guide AI thro
 
 After this prompt, you'll have a working summary section in your app.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 31
@@ -93,11 +93,11 @@ Refresh your browser to see the summary section. It should display totals and up
 
 Use your test agent to verify the implementation meets the requirements. Switch to your QA specialist.
 
-**In VS Code:** Click the **agent picker** in the chat input area and select **test-agent**.
+**In Cursor or Claude Code:** Start the prompt with "Use the test-agent subagent."
 
 After this prompt, your test plan will include tests for the new summary feature.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 32
@@ -117,11 +117,11 @@ Check that `tests/test-plan.md` now includes tests for R13-R14.
 
 Use your docs agent to update the user guide with the new feature. Switch to your documentation specialist.
 
-**In VS Code:** Click the **agent picker** in the chat input area and select **docs-agent**.
+**In Cursor or Claude Code:** Start the prompt with "Use the docs-agent subagent."
 
 After this prompt, the user guide will explain the summary feature.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 33
@@ -142,11 +142,11 @@ Check that `docs/USER-GUIDE.md` now includes a section about the summary feature
 
 Finally, have your review agent check the implementation quality. Switch to your code review specialist.
 
-**In VS Code:** Click the **agent picker** in the chat input area and select **review-agent**.
+**In Cursor or Claude Code:** Start the prompt with "Use the review-agent subagent."
 
 After this prompt, you'll have a code review documenting the quality of your changes.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 34

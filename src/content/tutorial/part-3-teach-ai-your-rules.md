@@ -10,7 +10,7 @@ subtitle: 15 minutes - Make AI work the way you want
 
 Your prototype works, but here's a challenge you'll face as projects grow: AI can drift in unexpected directions.
 
-**Try this experiment.** Ask GitHub Copilot:
+**Try this experiment.** Ask the agent:
 
 > "Add a user login system to my app"
 
@@ -37,34 +37,36 @@ As you add more features, AI can make decisions you didn't intend. Understanding
 **The fix:** Create rule files that AI reads automatically. Set them once, and AI stays on track for every future prompt.
 
 **Rule files you’ll create:**
-• `.github/copilot-instructions.md` — Rules GitHub Copilot follows automatically in all interactions
-• `AGENTS.md` — Additional instructions specifically for GitHub Copilot coding agent (the autonomous background agent)
+• `.cursor/rules/project.mdc` — Rules Cursor applies to every Agent session in this project
+• `AGENTS.md` — Project context both Cursor and Claude Code read (how to build, what not to do)
+• `CLAUDE.md` — The same always-on rules, in the file Claude Code loads at the start of every session
 
-Both files are read automatically — you don't need to reference them in prompts.
+Both tools read `AGENTS.md` automatically — you don't need to reference it in prompts.
+
 **Click any file below to see what it does:**
 
 :::diagram file-hierarchy
 :::
-💡 **Cross-platform standard:** `AGENTS.md` isn't just for GitHub Copilot — it's an open standard used by many AI coding tools. Your rules will work across different AI assistants.
+💡 **Shared file:** `AGENTS.md` is an open standard. Cursor and Claude Code both read it. Tool-specific rule files (`.cursor/rules` and `CLAUDE.md`) hold the same constraints in the format each tool expects.
 
 ---
 
 ### Prompt Patterns That Get Better Results
 
-These patterns come from GitHub's official best practices. Use them whenever you talk to GitHub Copilot:
+Use these whenever you talk to the agent:
 
 - **Start general → get specific** — Give the big picture first, then details. Example: "Create a filter feature. It should have a dropdown with Green/Yellow/Red options."
 - **Give examples** — Show input/output samples. Example: "Format dates like: 05/02/2024"
 - **Break complex tasks down** — One thing at a time. Instead of "build the whole app," ask for structure, then data, then styling
 - **Avoid ambiguity** — Name things explicitly. Say "the `filterItems` function" not "this function"
-- **Reference files** — Point to specific code. Use `#file:app/index.html` to reference a file, or mention "line 45 in app/index.html"
+- **Reference files** — Point to specific code. In Cursor, type `@` and pick the file. You can also write "look at app/index.html"
 
 **Keep history clean:**
 - Start a new chat for new tasks (old context can confuse AI)
 - Delete failed attempts before trying again
-- Use `/clear` to reset the conversation (slash commands like this trigger special actions)
+- In Cursor, start a new Agent chat. In Claude Code, run `/clear`
 
-💡 **Pro tip:** Ask GitHub Copilot to analyze your project and generate an instructions file for you, then customize it for your needs.
+💡 **Pro tip:** Ask the agent to draft the rules from the project you already built, then edit anything that is too strict or too vague.
 
 ---
 
@@ -73,17 +75,24 @@ These patterns come from GitHub's official best practices. Use them whenever you
 
 Now you'll create a rules file that AI reads at the start of every conversation. This is powerful: set your constraints once, and AI respects them forever — no reminding needed.
 
-After this prompt, you'll have a `.github/copilot-instructions.md` file that keeps AI focused on your prototype approach.
+After this prompt, you'll have a Cursor rule that keeps AI focused on your prototype approach, plus a `CLAUDE.md` with the same constraints.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 9
-title: Create Copilot instructions
+title: Create project rules
 ---
-Create a file at .github/copilot-instructions.md with rules for working in this project.
+Create two files with the same rules.
 
-The instructions should include:
+1. .cursor/rules/project.mdc — Cursor always-on rule. Start the file with this frontmatter, then the sections below:
+
+---
+description: Always-on rules for this prototype
+alwaysApply: true
+---
+
+2. CLAUDE.md at the project root — Claude Code always-on memory. No frontmatter. Same four sections.
 
 SECTION 1: Project Overview
 - This is a {{projectName}} prototype
@@ -110,21 +119,25 @@ SECTION 4: When Asked to Add New Features
 - Then create a task in specs/Tasks.md
 - Then implement following the normal process
 
-Keep the file concise and easy to read.
+Keep both files concise and easy to read.
 :::
 
-Check that `.github/copilot-instructions.md` was created. Open it to see your rules — these will now apply to every GitHub Copilot interaction in this project.
+Check that `.cursor/rules/project.mdc` and `CLAUDE.md` were created. Open them — these rules now apply to every new Agent session in this project.
 
-💡 **Rules persist across sessions**: Every time you open this project and chat with GitHub Copilot, it will read these rules first.
+💡 **Rules persist across sessions**: Every time you open this project, Cursor loads rules with `alwaysApply: true`. Claude Code loads `CLAUDE.md`.
+
+:::note
+**Why two files?** Cursor's project rules are `.mdc` files in `.cursor/rules/` with `alwaysApply` or `globs`. Claude Code loads `CLAUDE.md` (and any `.claude/rules/` file that has no `paths` field) at the start of every session. The sentences inside are the same. The wrapper is what differs.
+:::
 
 ## step: test-rules
 ### title: Step 14: Test That AI Follows Your Rules
 
-Let's prove it works. Ask for features that would normally trigger AI to add complexity — and watch it refuse based on your rules.
+Let's prove it works. Start a **new** Agent chat so it picks up the files you just created. Ask for features that would normally trigger AI to add complexity — and watch it refuse based on your rules.
 
 After this prompt, AI should explain which features are blocked and suggest alternatives that follow your constraints.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 10
@@ -156,26 +169,27 @@ This works for any project: set your rules once, and AI follows them every time.
 
 ### ✅ Checkpoint
 
-- [ ] `.github/copilot-instructions.md` exists
+- [ ] `.cursor/rules/project.mdc` exists and has `alwaysApply: true`
+- [ ] `CLAUDE.md` exists with the same constraints
 - [ ] AI refused to add login/database when you tested it
 - [ ] AI suggested alternatives that follow your rules
 
 ## step: create-guide
-### title: Step 15: Create Coding Agent Instructions
+### title: Step 15: Create Shared Agent Instructions
 
-The **GitHub Copilot coding agent** is a more advanced AI that works independently in the background — for example, creating code changes as a pull request (proposed changes that teammates can review before accepting). It's different from **Agent mode** in chat, which works interactively as you watch. The coding agent reads `AGENTS.md` for project context — think of it as onboarding documentation for an AI teammate.
+`AGENTS.md` is onboarding for any coding agent that opens this repo — Cursor, Claude Code, and others. It says how to build, how to test, and what is out of scope. Your Cursor rule and `CLAUDE.md` hold the detailed do/don't list. `AGENTS.md` holds the project map.
 
-After this prompt, you'll have an `AGENTS.md` file at the project root with build instructions and coding standards.
+After this prompt, you'll have an `AGENTS.md` file at the project root.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 11
-title: Create coding agent instructions
+title: Create AGENTS.md
 ---
 Create an AGENTS.md file in the root of the project.
 
-This file provides instructions specifically for GitHub Copilot coding agent (the autonomous agent that creates pull requests).
+This file is read by Cursor and by Claude Code. It is the shared project map.
 
 Include:
 
@@ -191,18 +205,17 @@ Include:
 
 3. CODING STANDARDS
    - Use vanilla JavaScript only (no frameworks)
-   - Keep all code in single HTML file
-   - Follow rules in .github/copilot-instructions.md
+   - Keep all code in a single HTML file
+   - Follow the always-on rules in .cursor/rules/project.mdc and CLAUDE.md
 
 4. WHAT NOT TO DO
    - Do not add backend services
    - Do not add authentication
    - Do not install packages
 
-Keep it concise — this guides GitHub Copilot's autonomous work.
+Keep it concise.
 :::
 
-Check that `AGENTS.md` was created at the project root. This file complements your copilot-instructions.md by providing high-level project context.
+Check that `AGENTS.md` was created at the project root.
 
-💡 **Two files, different purposes**: `AGENTS.md` provides high-level project context (build, test, architecture), while `.github/copilot-instructions.md` contains detailed coding rules (do/don't do).
-
+💡 **Three files, different jobs**: `AGENTS.md` is the shared map (build, test, architecture). `.cursor/rules/project.mdc` is Cursor's always-on rule. `CLAUDE.md` is Claude Code's always-on memory. Keep the constraints in agreement — if you change a "do not", change it in all three.

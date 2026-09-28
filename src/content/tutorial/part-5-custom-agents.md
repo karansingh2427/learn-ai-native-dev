@@ -21,7 +21,7 @@ Instead of re-explaining context every time, you'll create **specialists** — A
 ## step: what-are-agents
 ### title: Step 22: What Are Custom Agents?
 
-Instead of one general-purpose GitHub Copilot, you can create **specialists** — think of these as team members with specific expertise.
+Instead of one general-purpose agent, you can create **specialists** — think of these as team members with specific expertise.
 
 **Examples of specialists:**
 • **test-agent** → Quality assurance (writing and running tests)
@@ -29,20 +29,18 @@ Instead of one general-purpose GitHub Copilot, you can create **specialists** �
 • **review-agent** → Code review (checking quality and best practices)
 
 **How to use them:**
-• **In VS Code:** Click the **agent picker** in the chat input area (next to the model picker) and select your agent
+• **In Cursor:** Ask Agent to use the subagent by name: "Use the test-agent subagent to …". Cursor also delegates on its own when the request matches the agent's `description`.
+• **In Claude Code:** Same sentence. Claude Code reads agents from `.claude/agents/`.
 
-**Built-in agents (these come with VS Code):**
+**Built-in modes (Cursor):**
 
-- **Agent** — Autonomous tasks: AI decides what to do and does it
-- **Plan** — Complex tasks: AI creates a step-by-step plan first
-- **Ask** — Questions only: AI answers but doesn't change files
-- **Edit** — Targeted edits: AI modifies specific code you select
+- **Agent** — Edits files and runs commands
+- **Plan** — Writes the approach before editing
+- **Ask** — Answers, and does not change files
 
-**Your custom agents** (like test-agent, docs-agent) appear in the same picker alongside the built-in ones.
+**Your subagents** are not a separate chat mode. The main Agent hands them a task, they work in their own context, and they report back.
 
-💡 **Choosing the right mode**: Use **Agent** when you want AI to figure out the approach, **Plan** for bigger features where you want to review first, **Ask** when you just need an explanation, and **Edit** when you know exactly what file needs to change.
-
-💡 **Note**: Custom agents were previously called "chat modes" in earlier VS Code versions. If you see references to `.chatmode.md` files, they're the same feature with the old name.
+💡 **Choosing the right mode**: Use **Agent** when you want files changed, **Plan** when you want to read the approach first, and **Ask** when you only want an explanation.
 
 ## step: understand-agents-md
 ### title: Understanding AGENTS.md (The Open Standard)
@@ -57,7 +55,7 @@ Think of `AGENTS.md` as onboarding documentation for an AI teammate. It tells th
 
 **AGENTS.md is an open standard:**
 - Used by 60,000+ open source projects
-- Works across many AI tools: GitHub Copilot, Cursor, Windsurf, Devin, and more
+- Works in Cursor and Claude Code, and in many other coding agents
 - Your instructions aren't locked into one tool
 
 **What belongs in AGENTS.md:**
@@ -93,9 +91,9 @@ AI agents will actually try to run these commands. If they fail, the agent gets 
 **Example from real projects:**
 The OpenAI repository has 88+ AGENTS.md files — one per major component. Each gives context specific to that area.
 
-**Relationship to copilot-instructions.md:**
-- `AGENTS.md` → High-level project context (build, test, architecture)
-- `.github/copilot-instructions.md` → Detailed coding rules (do/don't do)
+**Relationship to your rule files:**
+- `AGENTS.md` → High-level project context (build, test, architecture), shared by both tools
+- `.cursor/rules/project.mdc` and `CLAUDE.md` → Detailed coding rules (do/don't do)
 
 Both are read automatically. They complement each other.
 
@@ -104,15 +102,17 @@ Both are read automatically. They complement each other.
 
 Custom agents live in a special folder in your project. Let's create the structure first.
 
-After this prompt, you'll have a `.github/agents/` folder ready to hold your specialist definitions.
+After this prompt, you'll have `.cursor/agents/` and `.claude/agents/` ready to hold your specialist definitions.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 17
 title: Create agents folder
 ---
-Create a folder at .github/agents/ if it doesn't exist.
+Create these folders if they don't exist:
+.cursor/agents/
+.claude/agents/
 :::
 
 ## step: create-test-agent
@@ -122,18 +122,22 @@ Your first custom agent will be a QA specialist. It knows how to create test pla
 
 After this prompt, you'll have a test-agent that appears in your agent picker.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 18
 title: Create test agent
 ---
-Create a file at .github/agents/test-agent.agent.md with these contents:
+Create the same file in both places:
+- .cursor/agents/test-agent.md
+- .claude/agents/test-agent.md
+
+Use these contents:
 
 ---
 name: test-agent
 description: QA specialist for testing the {{projectName}}. Use this agent to write tests, create test plans, and verify requirements.
-tools: ['search', 'problems', 'fetch']
+model: inherit
 ---
 
 # Test Agent
@@ -178,11 +182,11 @@ Always output test plans as markdown checklists that can be used for manual test
 
 Let's use your new agent right away to see the value. You'll switch to the test-agent and ask it to create a test plan — it already knows how.
 
-**In VS Code:** Click the **agent picker** in the chat input area (next to the model picker) and select **test-agent**.
+**In Cursor or Claude Code:** Start the prompt with "Use the test-agent subagent."
 
 After this prompt, you'll have a comprehensive test plan covering all your requirements.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 19
@@ -212,18 +216,22 @@ Your second specialist focuses on documentation. It writes for non-technical use
 
 After this prompt, you'll have a docs-agent for creating user guides and READMEs.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 20
 title: Create docs agent
 ---
-Create a file at .github/agents/docs-agent.agent.md with these contents:
+Create the same file in both places:
+- .cursor/agents/docs-agent.md
+- .claude/agents/docs-agent.md
+
+Use these contents:
 
 ---
 name: docs-agent
 description: Documentation specialist for creating and maintaining project documentation. Use this agent to write READMEs, user guides, and technical docs.
-tools: ['search', 'fetch', 'editFiles']
+model: inherit
 ---
 
 # Documentation Agent
@@ -272,18 +280,22 @@ Your third specialist is a code reviewer. It checks for quality, accessibility, 
 
 After this prompt, you'll have a review-agent for code quality checks.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 21
 title: Create review agent
 ---
-Create a file at .github/agents/review-agent.agent.md with these contents:
+Create the same file in both places:
+- .cursor/agents/review-agent.md
+- .claude/agents/review-agent.md
+
+Use these contents:
 
 ---
 name: review-agent
 description: Code reviewer for maintaining quality standards. Use this agent to review code changes, suggest improvements, and check for issues.
-tools: ['search', 'problems', 'usages']
+model: inherit
 ---
 
 # Code Review Agent
@@ -302,7 +314,7 @@ You are a Senior Developer conducting code reviews for the {{projectName}}.
 - [ ] Are there helpful comments?
 
 ### 3. Best Practices
-- [ ] Does it follow the rules in .github/copilot-instructions.md?
+- [ ] Does it follow the rules in .cursor/rules/project.mdc and CLAUDE.md?
 - [ ] Does it follow path-specific instructions?
 - [ ] Is there any code duplication that should be refactored?
 
@@ -334,44 +346,34 @@ For each review, provide:
 - Prioritize issues by importance
 :::
 
-💡 **Advanced — Tool Restrictions**: Each agent's `tools:` list controls what it can do. For example, **test-agent** uses `search`, `problems`, `fetch` (read-only), **docs-agent** uses `editFiles` (can create/modify docs), and **review-agent** uses `search`, `problems`, `usages` (read-only for safe reviews). You can also add a `model:` field to force a specific model.
+💡 **Read-only specialists**: In Cursor, add `readonly: true` under the frontmatter when an agent should not edit files (test-agent and review-agent). In Claude Code, list the tools it may use in a `tools:` field. The instructions in the file body are what both tools actually follow.
 
 ## step: handoffs-advanced
 ### title: Advanced: Chain Agents with Handoffs
 
 💡 **Optional:** Skip this if you're new to custom agents.
 
-Handoffs let you create guided workflows that transition between agents. After a response completes, handoff buttons appear that let you move to the next agent with context preserved.
+Cursor and Claude Code do not switch you between chat modes with a button. The main agent **delegates**: it starts the specialist, waits, and continues with the result.
 
 **Example workflow:** Planning → Implementation
 
-Add this to a planning agent's frontmatter:
+Ask Agent:
 
-```yaml
----
-name: planner
-description: Generate implementation plans
-tools: ['search', 'fetch']
-handoffs:
-  - label: Start Implementation
-    agent: agent
-    prompt: Implement the plan outlined above.
-    send: false
----
-```
+> Use the planner subagent to write the plan. When it finishes, implement that plan yourself. Do not ask me to switch chats.
 
-When the planning agent finishes, users see a "Start Implementation" button that switches to the implementation agent with the plan as context.
+The specialist's `description` is what tells the parent when that handoff is appropriate. Write it as a job, not a slogan: "Use when creating a test plan from specs/PRD.md."
+
 
 ## step: use-docs-agent
 ### title: Step 28: Use Your Docs Agent
 
 Now try the docs agent to create a user guide. Switch to the docs-agent and ask it to document your project for new users.
 
-**In VS Code:** Click the **agent picker** in the chat input area (next to the model picker) and select **docs-agent**.
+**In Cursor or Claude Code:** Start the prompt with "Use the docs-agent subagent."
 
 After this prompt, you'll have a beginner-friendly user guide.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 22
@@ -398,11 +400,11 @@ Check that `docs/USER-GUIDE.md` was created with clear, simple explanations of y
 
 Finally, have your review agent check the code quality. It will evaluate your implementation against requirements and project rules.
 
-**In VS Code:** Click the **agent picker** in the chat input area (next to the model picker) and select **review-agent**.
+**In Cursor or Claude Code:** Start the prompt with "Use the review-agent subagent."
 
 After this prompt, you'll have a code review documenting what's good and what could improve.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 23
@@ -412,8 +414,8 @@ Conduct a code review of app/index.html.
 
 Check the code against:
 1. The requirements in specs/PRD.md
-2. The rules in .github/copilot-instructions.md
-3. The frontend rules in .github/instructions/app.instructions.md
+2. The rules in .cursor/rules/project.mdc and CLAUDE.md
+3. The frontend rules in .cursor/rules/app.mdc
 
 Create your review report in docs/CODE-REVIEW.md
 :::
@@ -422,7 +424,7 @@ Check that `docs/CODE-REVIEW.md` was created with a summary, positives, issues, 
 
 ### ✅ Checkpoint: Your Agent Team
 
-- [ ] Three agents exist in `.github/agents/`
+- [ ] Three agents exist in `.cursor/agents/` and the same three exist in `.claude/agents/`
 - [ ] `tests/test-plan.md` was created by test-agent
 - [ ] `docs/USER-GUIDE.md` was created by docs-agent
 - [ ] `docs/CODE-REVIEW.md` was created by review-agent

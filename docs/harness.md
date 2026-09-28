@@ -3,6 +3,11 @@
 > **Scope.** This document explains the AI customization layer that contributors
 > and maintainers use to *build* the website. The website itself
 > ([`src/`](../src)) and its design ([this folder](.)) are unaffected by it.
+>
+> The **Foundation lessons** teach Cursor and Claude Code (`.cursor/rules`,
+> `CLAUDE.md`, `.cursor/agents`, `.claude/agents`, skills in both trees).
+> The files in `.github/` are still the original contributor harness from
+> the Microsoft course. They are not what learners create in Parts 0–8.
 
 The harness lives in [`.github/`](../.github) and follows the conventions
 defined by GitHub Copilot for VS Code and the Anthropic *Agent Skills* open

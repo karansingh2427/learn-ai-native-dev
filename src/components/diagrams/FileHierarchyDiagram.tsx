@@ -22,15 +22,15 @@ interface FileNode {
 
 const fileStructure: FileNode[] = [
   {
-    name: '.github/',
+    name: '.cursor/',
     type: 'folder',
     children: [
       {
-        name: 'copilot-instructions.md',
+        name: 'project.mdc',
         type: 'file',
         icon: <FileCode size={16} weight="duotone" className="text-emerald-500" />,
-        description: 'Rules Copilot follows in ALL interactions',
-        scope: 'Global — Every chat session',
+        description: 'Rules Cursor applies in every Agent session',
+        scope: 'Global — alwaysApply: true',
         highlight: 'global'
       },
       {
@@ -38,32 +38,40 @@ const fileStructure: FileNode[] = [
         type: 'folder',
         children: [
           {
-            name: 'test-agent.agent.md',
+            name: 'test-agent.md',
             type: 'file',
             icon: <Robot size={16} weight="duotone" className="text-pink-500" />,
-            description: 'QA specialist persona',
-            scope: 'When selected in agent picker',
+            description: 'QA specialist. Claude Code uses the same file under .claude/agents/',
+            scope: 'When the main agent delegates',
             highlight: 'agent'
           },
           {
-            name: 'docs-agent.agent.md',
+            name: 'docs-agent.md',
             type: 'file',
             icon: <Robot size={16} weight="duotone" className="text-pink-500" />,
             description: 'Documentation writer persona',
-            scope: 'When selected in agent picker',
+            scope: 'When the main agent delegates',
             highlight: 'agent'
           },
           {
-            name: 'review-agent.agent.md',
+            name: 'review-agent.md',
             type: 'file',
             icon: <Robot size={16} weight="duotone" className="text-pink-500" />,
             description: 'Code reviewer persona',
-            scope: 'When selected in agent picker',
+            scope: 'When the main agent delegates',
             highlight: 'agent'
           }
         ]
       }
     ]
+  },
+  {
+    name: 'CLAUDE.md',
+    type: 'file',
+    icon: <FileCode size={16} weight="duotone" className="text-emerald-500" />,
+    description: 'The same always-on rules, loaded by Claude Code',
+    scope: 'Global — every Claude Code session',
+    highlight: 'global'
   },
   {
     name: 'AGENTS.md',
@@ -183,7 +191,7 @@ function FileTreeNode({
 }
 
 export function FileHierarchyDiagram() {
-  const [selectedFile, setSelectedFile] = useState<string | null>('copilot-instructions.md')
+  const [selectedFile, setSelectedFile] = useState<string | null>('project.mdc')
   const [selectedNode, setSelectedNode] = useState<FileNode | null>(
     fileStructure[0].children?.[0] || null
   )
@@ -197,7 +205,7 @@ export function FileHierarchyDiagram() {
     <div
       className="my-6"
       role="figure"
-      aria-label="Project file structure diagram showing the hierarchy of AI instruction files: .github/copilot-instructions.md for global rules, AGENTS.md for project context, and .github/agents/ folder containing specialist agent files. Click files to see what AI reads from each."
+      aria-label="Project file structure diagram. Cursor rules live in .cursor/rules, Claude Code reads CLAUDE.md, both tools read AGENTS.md, and specialist subagents live in .cursor/agents and .claude/agents. Click a file to see what the agent reads from it."
     >
       <div className="grid gap-4 md:grid-cols-2">
         {/* File Tree */}

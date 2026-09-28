@@ -8,22 +8,24 @@ subtitle: 15 minutes - Create your first working prototype
 ## step: create-folder
 ### title: Step 1: Create a New Project Folder
 
-1. Open **VS Code**
-2. Go to **File → Open Folder...**
-3. Create a new folder called `{{folderName}}`
-4. Open it
+1. Create a new folder called `{{folderName}}`
+2. In Cursor, choose **File → Open Folder...** and open it
 
 You should see the empty folder in the left sidebar. That's your blank canvas — now let's have AI build everything inside it.
 
-## step: open-copilot
-### title: Step 2: Open GitHub Copilot Chat
+:::note
+**Claude Code:** `cd` into `{{folderName}}` in a terminal and run `claude`. You do not need the Cursor window for the prompts below.
+:::
 
-Before we can give AI instructions, we need to open the chat panel and switch to the right mode. Agent mode is special — it lets GitHub Copilot actually create and edit files in your project, not just suggest code.
+## step: open-agent
+### title: Step 2: Open Agent
 
-1. Click the **chat icon** in the left sidebar (or press `Ctrl+Shift+I`)
-2. Look at the mode selector at the bottom of the chat input — click the dropdown and select **"Agent"**
+Agent is what lets the AI create and edit files in your project, not only suggest code.
 
-You should see "Agent" displayed in the mode selector. The chat panel is now ready to receive your first prompt.
+1. Open the Agent panel (`Cmd+I` on Mac, `Ctrl+I` on Windows)
+2. Set the mode to **Agent**
+
+You should see **Agent** in the mode selector. The panel is ready for your first prompt.
 
 💡 **Iteration is normal:** If AI suggests something you don't want, just tell it "no" or "try again without X." You're directing the AI, not accepting everything it offers.
 
@@ -34,7 +36,7 @@ Before building anything, we need a basic project structure — folders to organ
 
 After this prompt, you'll have a `specs/` folder for documentation and an `app/` folder for your web page.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 1
@@ -50,7 +52,7 @@ README.md
 If any folders don't exist, create them. Don't ask me questions—just create everything.
 :::
 
-You should see GitHub Copilot create each file and folder. Check the sidebar — you'll see `specs/` and `app/` folders appear with the empty files inside.
+You should see the agent create each file and folder. Check the sidebar — you'll see `specs/` and `app/` folders appear with the empty files inside.
 
 💡 **Your first prompt!** This is how every AI interaction works: you describe what you want, AI makes it happen. Simple as that.
 
@@ -59,7 +61,7 @@ You should see GitHub Copilot create each file and folder. Check the sidebar —
 
 You're building a **{{projectName}}**: {{whatYouBuild}}
 
-Let AI write a proper project description for you. Copy this prompt into GitHub Copilot chat:
+Let AI write a proper project description for you. Copy this prompt into the Agent chat:
 
 :::prompt
 number: 2
@@ -91,7 +93,7 @@ A good project needs a plan. Instead of figuring out all the steps yourself, let
 
 After this prompt, you'll have a task list in `specs/Tasks.md` with checkboxes AI will mark off as it completes work.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 3
@@ -125,7 +127,7 @@ This is the magic moment — AI will read your task list, write all the code, an
 
 After this prompt, you'll have a complete, styled web page in `app/index.html` with sample data and color-coded status indicators.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 4
@@ -148,7 +150,7 @@ Make it look clean and professional. Use modern styling.
 After you create the file, mark those tasks as complete in specs/Tasks.md by changing [ ] to [x].
 :::
 
-Watch GitHub Copilot generate the code. Before clicking Accept, do a quick check:
+Watch the agent generate the code. Before clicking Accept, do a quick check:
 
 ✓ Does the code mention {{sampleDataDescription}}?
 ✓ Do you see Green, Yellow, and Red colors referenced?

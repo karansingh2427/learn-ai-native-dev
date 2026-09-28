@@ -19,56 +19,49 @@ A skill is a folder containing instructions that teach an agent how to complete 
 ## step: what-are-skills
 ### title: Step 30: What Makes Skills Different?
 
-⚠️ **Setup Required:**
-Agent Skills requires enabling in VS Code settings:
-1. Open Settings (Ctrl+,)
-2. Search for `chat.useAgentSkills`
-3. Check the box to enable
-
-Skills also work with GitHub Copilot CLI and the coding agent on GitHub.com.
+Cursor and Claude Code both load Agent Skills. No extra setting is required. Put the skill in the folder for the tool you are using — or in both, which is what this part does.
 
 ---
 
 **Skills vs. Custom Instructions vs. Custom Agents:**
 
 - **Custom Instructions** — Always loaded for every conversation. Best for: coding standards, project rules
-- **Custom Agents** — You select them manually from dropdown. Best for: specialized roles (testing, docs, review)
+- **Subagents** — A specialist with its own prompt. The main agent delegates to it. Best for: specialized roles (testing, docs, review)
 - **Agent Skills** — Loaded automatically when task matches. Best for: procedural workflows, repeatable processes
 
 **How skills work (loading on demand):**
 
-Instead of loading all skill instructions at once (which would slow things down), GitHub Copilot uses a smart system:
+Instead of loading all skill instructions at once (which would slow things down), the agent uses a smart system:
 
-1. **At startup:** GitHub Copilot reads just the `name` and `description` of each skill — enough to know when it might help
+1. **At startup:** the agent reads just the `name` and `description` of each skill — enough to know when it might help
 2. **When relevant:** If your request matches a skill's description, the full instructions load
 3. **On demand:** Additional files (scripts, examples) only load when actually needed
 
 This keeps context efficient — skills only load when needed.
 
-💡 **Open standard:** Agent Skills is an [open standard](https://agentskills.io/) adopted by GitHub Copilot, Claude, Gemini, and other AI tools. Skills you create are portable.
+💡 **Open standard:** Agent Skills is an [open standard](https://agentskills.io/). Cursor reads `.cursor/skills/`. Claude Code reads `.claude/skills/`. The `SKILL.md` file is the same in both.
 
 ## step: create-skills-folder
 ### title: Step 31: Create the Skills Folder
 
 Skills live in a dedicated folder. Let's create the structure that will hold your reusable workflows.
 
-After this prompt, you'll have a `.github/skills/` folder ready for your skill definitions.
+After this prompt, you'll have a `.cursor/skills/` folder ready for your skill definitions.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 24
 title: Create skills folder
 ---
-Create this folder structure:
-.github/skills/
+Create both folders:
+.cursor/skills/
+.claude/skills/
 
-This is where we'll store our Agent Skills.
+Cursor reads the first. Claude Code reads the second. Every skill in this part is saved in both.
 :::
 
-💡 **Where to put skills**: Use `.github/skills/` for project skills (recommended) or `~/.copilot/skills/` for personal skills that work across all your projects.
-
-💡 **Legacy paths**: VS Code also recognizes `.claude/skills/` for backward compatibility, but use `.github/skills/` for new projects.
+💡 **Where to put skills**: Project skills live in `.cursor/skills/` (Cursor) and `.claude/skills/` (Claude Code). Personal skills live in your user skills folder and apply to every project on your machine.
 
 💡 **Skill naming rules**: Folder names should be lowercase with hyphens (e.g., `verify-requirements`), the file must be named exactly `SKILL.md` (uppercase), and the `name:` in frontmatter should match the folder name.
 
@@ -79,15 +72,18 @@ Your first skill helps verify that your implementation meets all requirements. T
 
 After this prompt, you'll have a skill that loads automatically when you ask about verification.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 25
 title: Create verification skill
 ---
-Create a folder at .github/skills/verify-requirements/
+Create the same skill in both places.
 
-Then create a file at .github/skills/verify-requirements/SKILL.md with these contents:
+Cursor: .cursor/skills/verify-requirements/SKILL.md
+Claude Code: .claude/skills/verify-requirements/SKILL.md
+
+Use these contents for both files:
 
 ---
 name: verify-requirements
@@ -141,7 +137,7 @@ For each failing requirement:
 - **Fix Needed**: [what to change]
 :::
 
-💡 **How skills get loaded (on demand)**: Unlike custom agents (which you select manually), skills load automatically. At startup, GitHub Copilot reads just the `name` and `description` of each skill. When your request matches, the full SKILL.md loads. Additional files only load when referenced. This means many skills can be installed without slowing things down.
+💡 **How skills get loaded (on demand)**: Unlike custom agents (which you select manually), skills load automatically. At startup, the agent reads just the `name` and `description` of each skill. When your request matches, the full SKILL.md loads. Additional files only load when referenced. This means many skills can be installed without slowing things down.
 
 **The `description:` field is critical** — include keywords that match prompts where this skill should activate:
 
@@ -152,11 +148,11 @@ For each failing requirement:
 ## step: test-verify-skill-now
 ### title: Step 33: Test Your Skill Immediately
 
-Before creating more skills, let's verify this one works. You'll ask GitHub Copilot to verify requirements — it should automatically load and use your skill.
+Before creating more skills, let's verify this one works. You'll ask the agent to verify requirements — it should automatically load and use your skill.
 
 After this prompt, you'll have a verification report and confirmation that your skill loaded.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 26
@@ -169,12 +165,12 @@ Check each requirement in specs/PRD.md against the implementation in app/index.h
 Create a verification report at docs/VERIFICATION-REPORT.md (create the docs/ folder if it doesn't exist).
 :::
 
-Check the "References" section in GitHub Copilot's response — you should see your skill mentioned. The verification report should appear at `docs/VERIFICATION-REPORT.md`.
+Check the "References" section in the agent's response — you should see your skill mentioned. The verification report should appear at `docs/VERIFICATION-REPORT.md`.
 
 ### ✅ Checkpoint
 
-- [ ] Verification skill created in `.github/skills/verify-requirements/`
-- [ ] GitHub Copilot loaded the skill when you asked about verification
+- [ ] Verification skill created in `.cursor/skills/verify-requirements/` and `.claude/skills/verify-requirements/`
+- [ ] The agent loaded the skill when you asked about verification
 - [ ] A verification report was generated
 
 ---
@@ -186,15 +182,18 @@ This skill provides a structured workflow for adding new features. It enforces y
 
 After this prompt, any "add feature" request will follow your defined process.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 27
 title: Create new feature skill
 ---
-Create a folder at .github/skills/add-feature/
+Create the same skill in both places.
 
-Then create a file at .github/skills/add-feature/SKILL.md with these contents:
+Cursor: .cursor/skills/add-feature/SKILL.md
+Claude Code: .claude/skills/add-feature/SKILL.md
+
+Use these contents for both files:
 
 ---
 name: add-feature
@@ -241,8 +240,8 @@ Only after requirements are documented:
 1. **Read existing code** in `app/index.html`
 2. **Identify where new code should go**
 3. **Implement the feature** following:
-   - Rules in `.github/copilot-instructions.md`
-   - Frontend rules in `.github/instructions/app.instructions.md`
+   - Rules in `.cursor/rules/project.mdc` and `CLAUDE.md`
+   - Frontend rules in `.cursor/rules/app.mdc`
 4. **Test in browser** before marking complete
 
 ### Phase 3: Verification
@@ -284,15 +283,18 @@ Your third skill handles bug fixes systematically. It ensures bugs are documente
 
 After this prompt, bug fix requests will follow a structured workflow.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 28
 title: Create bug fix skill
 ---
-Create a folder at .github/skills/fix-bug/
+Create the same skill in both places.
 
-Then create a file at .github/skills/fix-bug/SKILL.md with these contents:
+Cursor: .cursor/skills/fix-bug/SKILL.md
+Claude Code: .claude/skills/fix-bug/SKILL.md
+
+Use these contents for both files:
 
 ---
 name: fix-bug
@@ -334,7 +336,7 @@ This skill provides a structured workflow for identifying, fixing, and verifying
    - Don't add new features
 
 2. **Follow project rules**:
-   - Check `.github/copilot-instructions.md`
+   - Check `.cursor/rules/project.mdc` and `CLAUDE.md`
    - Check path-specific instructions
 
 3. **Test the fix**:
@@ -388,7 +390,7 @@ Try adding a new feature using your skill workflow. The skill should automatical
 
 After this prompt, you'll have a new feature added following your spec-driven workflow.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 29
@@ -401,7 +403,7 @@ Follow the proper workflow for adding features.
 
 ### ✅ Checkpoint: Skills Complete
 
-- [ ] Three skills exist in `.github/skills/`
+- [ ] Three skills exist in `.cursor/skills/` and in `.claude/skills/`
 - [ ] Verification skill creates reports when asked
 - [ ] Add-feature skill follows the spec-driven workflow
 - [ ] Skills load automatically based on your prompts
@@ -414,13 +416,13 @@ Follow the proper workflow for adding features.
 You don't have to create every skill from scratch. The community has created skills you can download and customize for your projects.
 
 **Community Resources:**
-- **[github/awesome-copilot](https://github.com/github/awesome-copilot)** — Community collection of skills, agents, and prompts
+- **[agentskills.io](https://agentskills.io/)** — The Agent Skills standard, including example skills you can adapt
 - **[anthropics/skills](https://github.com/anthropics/skills)** — Reference implementations
 
 **To use a shared skill:**
 1. Download the skill folder from the repository
-2. Copy it to your `.github/skills/` directory
+2. Copy it to `.cursor/skills/` and `.claude/skills/`
 3. Review and customize the SKILL.md for your project
 4. Test it in chat
 
-💡 **Security tip:** Always review shared skills before using them — check what they're designed to do. VS Code provides controls for script execution, including auto-approve options with configurable allow-lists.
+💡 **Security tip:** Always read a shared skill before you use it. A skill can tell the agent to run commands. In Cursor, hooks and the approval prompt are what stop a command you did not expect.

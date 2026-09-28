@@ -20,20 +20,27 @@ This tutorial teaches you to **direct AI to create things** using structured tec
 
 **In this tutorial,** you'll build a real, working web app — but the techniques apply to anything: documents, automation scripts, data analysis, and more. These skills scale from quick tasks to complex projects.
 
-## step: copilot-setup
-### title: Set Up GitHub Copilot (Agent Mode)
+The lessons use **Cursor** as the main tool. Wherever Claude Code stores a file differently, or starts a session differently, a note shows the equivalent. The prompts you paste are the same in both.
 
-Before you can direct AI to build things, you need to set up VS Code with GitHub Copilot and enable Agent mode. Agent mode is what allows AI to actually create and edit files — without it, AI can only suggest code.
+## step: agent-setup
+### title: Set Up Cursor (Agent)
+
+Before you can direct AI to build things, you need an agent that can create and edit files. Chat that only suggests code is not enough.
 
 **What you need:**
-• [VS Code](https://code.visualstudio.com) installed
-• GitHub Copilot extension installed and signed in
+• [Cursor](https://cursor.com) installed and signed in
 
-**Enable Agent Mode:**
-1. Open VS Code
-2. Click the chat icon in the sidebar (or press `Ctrl+Shift+I` on Windows / `Cmd+Shift+I` on Mac)
-3. In the chat input area, click the **agent picker** (next to the model picker) and select **Agent**
+**Open Agent:**
+1. Open Cursor
+2. Open the Agent panel (`Cmd+I` on Mac, `Ctrl+I` on Windows) or the side chat (`Cmd+L` / `Ctrl+L`)
+3. Set the mode to **Agent**
 
-You should see "Agent" displayed in the mode selector. The chat panel is now ready to execute multi-step tasks.
+You should see **Agent** in the mode selector. The panel can now plan a task and edit files in the project.
 
-💡 **What's the difference?** **Agent mode** lets GitHub Copilot plan and execute multi-step tasks, creating and editing files. Later in this tutorial, you'll create **custom agents** — specialized personas you can switch to for specific tasks.
+💡 **What's the difference?** **Agent** plans and executes multi-step tasks, creating and editing files. **Ask** answers questions and leaves files alone. **Plan** writes the approach before it edits. Later in this tutorial, you'll create **subagents** — specialists the main agent can hand work to.
+
+:::note
+**Claude Code**
+
+Install [Claude Code](https://code.claude.com/docs/en/setup), open a terminal in your project, and run `claude`. Claude Code edits files by default — there is no separate Agent switch. Paste the same prompts from this course into that session. When a lesson names a Cursor file (`.cursor/rules`, `.cursor/agents`, `.cursor/skills`), the note in that lesson names the Claude Code path (`.claude/rules`, `.claude/agents`, `.claude/skills`, or `CLAUDE.md`).
+:::

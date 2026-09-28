@@ -21,7 +21,7 @@ One rulebook can't handle all these contexts. This part teaches you to create **
 ## step: path-problem
 ### title: Step 16: The Problem with One Rule File
 
-Your `.github/copilot-instructions.md` applies to your **entire project**. But different parts of a project have different needs — and a single rule file can't express context-specific guidance.
+Your always-on rule applies to the **entire project**. Different parts of a project have different needs — and a single rule file can't express context-specific guidance.
 
 **Imagine your project grows:**
 
@@ -37,52 +37,75 @@ Your `.github/copilot-instructions.md` applies to your **entire project**. But d
 • **Test files**: "Always use descriptive test names"
 • **Specs**: "Keep documents under 1 page"
 
-Path-specific instructions let you do exactly this.
+Folder rules let you do exactly this.
+
+:::note
+**Same idea, two files**
+
+| | Cursor | Claude Code |
+|---|---|---|
+| Always-on | `.cursor/rules/project.mdc` with `alwaysApply: true` | `CLAUDE.md` |
+| One folder | `.cursor/rules/app.mdc` with `globs: app/**` and `alwaysApply: false` | `.claude/rules/app.md` with `paths: ["app/**"]` |
+
+Cursor applies a glob rule when matching files are in context. Claude Code loads a `paths` rule when it works on a matching file.
+:::
 
 ## step: create-instructions-folder
-### title: Step 17: Create the Instructions Folder
+### title: Step 17: Create the Rules Folders
 
-Path-specific instructions live in a special folder. You'll create three instruction files — one for each area of your project with different rules.
+You'll create three rule files for each tool — one for each area of your project.
 
-After this prompt, you'll have the folder structure ready for your path-specific rules.
+After this prompt, both folders exist and the files are empty.
 
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 12
-title: Create instructions folder
+title: Create rule folders
 ---
-Create a folder at .github/instructions/ if it doesn't exist.
+Create these empty files:
 
-Then create these three instruction files:
-
-1. .github/instructions/app.instructions.md
-2. .github/instructions/specs.instructions.md  
-3. .github/instructions/tests.instructions.md
+1. .cursor/rules/app.mdc
+2. .cursor/rules/specs.mdc
+3. .cursor/rules/tests.mdc
+4. .claude/rules/app.md
+5. .claude/rules/specs.md
+6. .claude/rules/tests.md
 
 Leave them empty for now. Just create the structure.
 :::
 
-Check the sidebar — you should see `.github/instructions/` with three empty `.instructions.md` files inside.
+Check the sidebar — you should see `.cursor/rules/` and `.claude/rules/`, each with three files.
 
 ## step: frontend-instructions
 ### title: Step 18: Add Frontend Instructions
 
 Now you'll define rules that apply only when AI edits files in the `app/` folder. These rules enforce vanilla JavaScript, modern syntax, and accessibility standards.
 
-After this prompt, AI will automatically follow frontend-specific rules when working on your app code.
-
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 13
-title: Write frontend instructions
+title: Write frontend rules
 ---
-Edit .github/instructions/app.instructions.md with these contents:
+Write the same frontend rules into two files, with the frontmatter each tool expects.
+
+File 1: .cursor/rules/app.mdc
 
 ---
-applyTo: "app/**"
+description: Frontend rules for the app folder
+globs: app/**
+alwaysApply: false
 ---
+
+File 2: .claude/rules/app.md
+
+---
+paths:
+  - "app/**"
+---
+
+After the frontmatter, both files get this body:
 
 # Frontend Code Instructions
 
@@ -107,26 +130,37 @@ applyTo: "app/**"
 - Include ARIA labels where needed
 :::
 
-💡 **Important:** The `---` markers and `applyTo:` line are required. This is called "YAML frontmatter" — it tells GitHub Copilot which files these rules apply to.
+💡 **The frontmatter is the switch.** Cursor uses `globs` and `alwaysApply: false`. Claude Code uses `paths`. The rules under the heading are identical.
 
 ## step: specs-instructions
 ### title: Step 19: Add Specs Instructions
 
 Different rules for your requirements documents. These ensure PRD and task files stay concise, numbered, and written in beginner-friendly language.
 
-After this prompt, documentation in the `specs/` folder will follow a consistent format.
-
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 14
-title: Write specs instructions
+title: Write specs rules
 ---
-Edit .github/instructions/specs.instructions.md with these contents:
+Write the same specs rules into two files.
+
+File 1: .cursor/rules/specs.mdc
 
 ---
-applyTo: "specs/**"
+description: Rules for requirement and task documents
+globs: specs/**
+alwaysApply: false
 ---
+
+File 2: .claude/rules/specs.md
+
+---
+paths:
+  - "specs/**"
+---
+
+Body for both:
 
 # Specification Document Instructions
 
@@ -158,19 +192,30 @@ applyTo: "specs/**"
 
 Finally, rules for test files you'll create later. These enforce consistent naming, test structure, and coverage requirements.
 
-After this prompt, any tests AI creates will follow your conventions.
-
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 15
-title: Write test instructions
+title: Write test rules
 ---
-Edit .github/instructions/tests.instructions.md with these contents:
+Write the same test rules into two files.
+
+File 1: .cursor/rules/tests.mdc
 
 ---
-applyTo: "tests/**"
+description: Rules for test files
+globs: tests/**
+alwaysApply: false
 ---
+
+File 2: .claude/rules/tests.md
+
+---
+paths:
+  - "tests/**"
+---
+
+Body for both:
 
 # Test File Instructions
 
@@ -197,23 +242,21 @@ If creating manual test checklists:
 :::
 
 ## step: test-path-instructions
-### title: Step 21: Verify Path Instructions Work
+### title: Step 21: Verify Folder Rules Work
 
-Let's verify the path-specific instructions are working. You'll ask AI to explain what rules apply to different folders — it should describe different rules for each.
+Start a new Agent chat, then ask it to explain what rules apply to different folders. It should describe different rules for each.
 
-After this prompt, AI should confirm it reads different instructions for `app/` vs `specs/`.
-
-Copy this into GitHub Copilot chat:
+Copy this into the Agent chat:
 
 :::prompt
 number: 16
-title: Test path-specific instructions
+title: Test folder rules
 ---
 I want to add a new feature to my project. Before making any changes, tell me:
 
-1. What instructions apply when you edit files in the app/ folder?
-2. What instructions apply when you edit files in the specs/ folder?
-3. Are these instructions different from each other?
+1. What rules apply when you edit files in the app/ folder?
+2. What rules apply when you edit files in the specs/ folder?
+3. Are these rules different from each other?
 
 Don't make any changes yet—just explain what you found.
 :::
@@ -225,12 +268,12 @@ AI should describe the different rules for each folder — vanilla JavaScript fo
 
 🎯 **AI now follows different rules for different folders.**
 
-When you edit frontend code, AI knows to use vanilla JavaScript. When you edit specs, AI knows to keep documents short and numbered. Each folder has context-aware assistance — and this scales beautifully as your project grows.
+When you edit frontend code, AI knows to use vanilla JavaScript. When you edit specs, AI knows to keep documents short and numbered. Each folder has context-aware assistance — and this scales as your project grows.
 
 ### ✅ Checkpoint
 
-- [ ] Three instruction files exist in `.github/instructions/`
+- [ ] Three `.mdc` files exist in `.cursor/rules/` besides `project.mdc`, each with `globs` and `alwaysApply: false`
+- [ ] Three matching files exist in `.claude/rules/` with `paths`
 - [ ] AI correctly identifies different rules for `app/` vs `specs/`
-- [ ] Each file has valid `applyTo:` frontmatter
 
-💡 **Adding new folders**: As your project grows, add new instruction files for new areas. The pattern is always the same: create a file with `applyTo:` frontmatter matching the folder path.
+💡 **Adding new folders**: Create another pair of files with the same body and a glob that matches the new folder.
